@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en" data-theme="graphite">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layerworks — Design and 3D printing for businesses</title>
+<meta name="description" content="Custom 3D design and printing for businesses. Get an instant cost estimate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ------------------------------------------------------------------
+   THEMES
+   Each theme is a block of variables. Once one is chosen, set it as
+   the data-theme on <html> and delete the others plus the switcher.
+------------------------------------------------------------------- */
+:root,
+[data-theme="graphite"] {
+  --bg: #0f1011;
+  --surface: #17191b;
+  --surface-2: #1d2023;
+  --text: #ecebe8;
+  --muted: #9b9d9f;
+  --line: #2b2e31;
+  --accent: #d2a467;
+  --accent-ink: #17120a;
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-label: "Inter", system-ui, sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.03em;
+  --label-tracking: 0.12em;
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shadow: none;
+  color-scheme: dark;
+}
+[data-theme="paper"] {
+  --bg: #f5f2ea;
+  --surface: #fdfbf6;
+  --surface-2: #efebe1;
+  --text: #1e1c19;
+  --muted: #6c675f;
+  --line: #dcd7ca;
+  --accent: #984a2c;
+  --accent-ink: #fffaf3;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-label: "Inter", system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.02em;
+  --label-tracking: 0.14em;
+  --radius: 3px;
+  --radius-sm: 2px;
+  --shadow: none;
+  color-scheme: light;
+}
+[data-theme="blueprint"] {
+  --bg: #0c1626;
+  --surface: #111f35;
+  --surface-2: #16273f;
+  --text: #e2eaf4;
+  --muted: #8ea2bc;
+  --line: #23364f;
+  --accent: #86b8e8;
+  --accent-ink: #0c1626;
+  --font-display: "IBM Plex Sans", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-label: "IBM Plex Mono", ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.02em;
+  --label-tracking: 0.08em;
+  --radius: 0px;
+  --radius-sm: 0px;
+  --shadow: none;
+  color-scheme: dark;
+}
+[data-theme="studio"] {
+  --bg: #ffffff;
+  --surface: #f5f6f7;
+  --surface-2: #eceef0;
+  --text: #12161a;
+  --muted: #5d666f;
+  --line: #e2e5e8;
+  --accent: #1f5c49;
+  --accent-ink: #ffffff;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-label: "Manrope", system-ui, sans-serif;
+  --display-weight: 600;
+  --display-tracking: -0.035em;
+  --label-tracking: 0.1em;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(18, 22, 26, 0.04), 0 12px 32px -16px rgba(18, 22, 26, 0.14);
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------
+   BASE
+------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 88px; /* room for the theme switcher */
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+[data-theme="blueprint"] body {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+}
+[data-theme="blueprint"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0.82;
+  pointer-events: none;
+  z-index: -1;
+}
+a { color: inherit; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+}
+p { margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.label {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.label.accent { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { opacity: 0.88; }
+.btn-ghost { border-color: var(--line); color: var(--text); background: transparent; }
+.btn-ghost:hover { border-color: var(--muted); }
+
+/* ------------------------------------------------------------------
+   NAV
+------------------------------------------------------------------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.brand svg { color: var(--accent); }
+.nav-links { display: flex; align-items: center; gap: 30px; }
+.nav-links a:not(.btn) { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
+.nav-links a:not(.btn):hover { color: var(--text); }
+.nav-links .btn { padding: 9px 16px; font-size: 14px; }
+
+/* ------------------------------------------------------------------
+   HERO
+------------------------------------------------------------------- */
+.hero { padding: 104px 0 96px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: center; }
+.hero h1 { font-size: clamp(40px, 5.6vw, 68px); margin: 20px 0 24px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+[data-theme="paper"] .hero h1 em { font-style: italic; }
+.hero p.lead { font-size: 18px; color: var(--muted); max-width: 52ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 36px;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.hero-meta div { font-size: 14px; color: var(--muted); }
+.hero-meta strong { display: block; color: var(--text); font-weight: 500; font-size: 15px; }
+.hero-art { color: var(--line); }
+.hero-art svg { width: 100%; height: auto; display: block; }
+.hero-art .top { color: var(--accent); }
+.hero-art .mid { color: var(--muted); }
+
+/* ------------------------------------------------------------------
+   SECTIONS
+------------------------------------------------------------------- */
+section { padding: 96px 0; }
+.section-head { max-width: 640px; margin-bottom: 52px; }
+.section-head h2 { font-size: clamp(30px, 3.6vw, 42px); margin: 14px 0 16px; }
+.section-head p { color: var(--muted); font-size: 17px; }
+.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 28px 32px;
+  box-shadow: var(--shadow);
+}
+.card .num { font-family: var(--font-label); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; }
+.card h3 { font-size: 22px; margin: 22px 0 10px; }
+.card p { color: var(--muted); font-size: 15px; }
+.card ul { list-style: none; padding: 0; margin: 22px 0 0; border-top: 1px solid var(--line); }
+.card li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.card li:last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* ------------------------------------------------------------------
+   CALCULATOR
+------------------------------------------------------------------- */
+.calc { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: start; }
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+.field { margin-bottom: 26px; }
+.field:last-child { margin-bottom: 0; }
+.field > label, .field > .field-label, fieldset legend {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  padding: 0;
+}
+.field .hint { font-weight: 400; color: var(--muted); font-size: 13px; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.input, .select select {
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 15px;
+  transition: border-color 0.15s ease;
+}
+.input:hover, .select select:hover { border-color: var(--muted); }
+.select { position: relative; }
+.select select { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; }
+.select::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.dims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.dim { position: relative; }
+.dim span {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-label);
+  font-size: 12px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.dim .input { padding-left: 34px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+input[type="range"] { width: 100%; accent-color: var(--accent); margin: 6px 0 0; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
+.seg label {
+  display: block;
+  text-align: center;
+  padding: 11px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.seg label:hover { border-color: var(--muted); }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label:has(input:checked) { border-color: var(--accent); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.result { position: sticky; top: 92px; }
+.result .range {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  font-size: clamp(32px, 3.4vw, 42px);
+  line-height: 1.1;
+  margin: 14px 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+.result .per { color: var(--muted); font-size: 14px; }
+.breakdown { list-style: none; padding: 0; margin: 26px 0; border-top: 1px solid var(--line); }
+.breakdown li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.breakdown li span:last-child { color: var(--text); }
+.breakdown li.total { font-weight: 500; color: var(--text); }
+.result .btn { width: 100%; }
+.fine { margin-top: 16px; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+/* ------------------------------------------------------------------
+   PROCESS
+------------------------------------------------------------------- */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+.step { padding: 28px 24px 0 0; }
+.step .num { font-family: var(--font-label); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; }
+.step h3 { font-size: 19px; margin: 14px 0 8px; }
+.step p { color: var(--muted); font-size: 15px; }
+
+/* ------------------------------------------------------------------
+   CONTACT + FOOTER
+------------------------------------------------------------------- */
+.cta {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 64px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  box-shadow: var(--shadow);
+}
+.cta h2 { font-size: clamp(28px, 3.2vw, 38px); margin-bottom: 12px; }
+.cta p { color: var(--muted); max-width: 48ch; }
+.cta .btn { flex-shrink: 0; }
+footer { border-top: 1px solid var(--line); padding: 32px 0; }
+.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--muted); }
+
+/* ------------------------------------------------------------------
+   THEME SWITCHER (preview only — remove once a theme is picked)
+------------------------------------------------------------------- */
+.switcher {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  background: #111214;
+  border: 1px solid #2e3033;
+  border-radius: 999px;
+  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.45);
+  font-family: "Inter", system-ui, sans-serif;
+  max-width: calc(100vw - 24px);
+}
+.switcher .tag { color: #8b8e92; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 10px 0 14px; white-space: nowrap; }
+.switcher button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #b9bcc0;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.switcher button:hover { color: #fff; }
+.switcher button[aria-pressed="true"] { background: #f2f2f0; color: #111214; }
+.switcher .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(128, 128, 128, 0.5); }
+
+/* ------------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .hero { padding: 64px 0; }
+  .hero-grid, .calc { grid-template-columns: 1fr; }
+  .hero-art { max-width: 360px; }
+  .cards { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .result { position: static; }
+  .cta { flex-direction: column; align-items: flex-start; padding: 40px 28px; }
+  section { padding: 68px 0; }
+  .nav-links a:not(.btn) { display: none; }
+}
+@media (max-width: 560px) {
+  .wrap { padding: 0 16px; }
+  .panel { padding: 22px 18px; }
+  .two { grid-template-columns: 1fr; gap: 0; }
+  .two .field { margin-bottom: 26px; }
+  .steps { grid-template-columns: 1fr; }
+  .seg { grid-auto-flow: row; }
+  .switcher .tag { display: none; }
+  .switcher button { padding: 8px 10px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M11 2 20 6.5 11 11 2 6.5 11 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M2 11l9 4.5 9-4.5M2 15.5 11 20l9-4.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      Layerworks
+    </a>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-ghost" href="#estimate">Get an estimate</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="label accent">Design and 3D printing for businesses</span>
+        <h1>Custom parts, designed and printed <em>to order</em>.</h1>
+        <p class="lead">Send a drawing, a file, or just an idea. We design it, print it, and deliver production-ready parts, from a single prototype to a full batch.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#estimate">Estimate your part</a>
+          <a class="btn btn-ghost" href="#services">What we do</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>Instant estimate</strong>Know the ballpark before you call</div>
+          <div><strong>One part or hundreds</strong>No minimum order</div>
+          <div><strong>Design included</strong>No CAD file needed</div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 400 400" fill="none">
+          <g stroke="currentColor" stroke-width="1.25" stroke-linejoin="round">
+            <path d="M200 300 340 230 200 160 60 230Z"/>
+            <path d="M200 284 340 214 200 144 60 214Z"/>
+            <path d="M200 268 340 198 200 128 60 198Z"/>
+            <path d="M200 252 340 182 200 112 60 182Z"/>
+            <path d="M200 236 340 166 200 96 60 166Z"/>
+          </g>
+          <g class="mid" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round">
+            <path d="M200 220 340 150 200 80 60 150Z"/>
+            <path d="M200 204 340 134 200 64 60 134Z"/>
+          </g>
+          <path class="top" d="M200 188 340 118 200 48 60 118Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+          <path class="top" d="M200 160 284 118 200 76 116 118Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-dasharray="3 5"/>
+          <g class="mid" stroke="currentColor" stroke-width="1">
+            <path d="M60 330h280M60 324v12M340 324v12"/>
+            <path d="M366 118v112M360 118h12M360 230h12"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">Services</span>
+        <h2>From idea to finished part.</h2>
+        <p>Use one service or all three. Every job starts with a conversation about what the part needs to do.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <span class="num">01</span>
+          <h3>Design</h3>
+          <p>We turn sketches, measurements, or an existing part into a print-ready 3D model.</p>
+          <ul>
+            <li>CAD modeling from drawings or samples</li>
+            <li>Design for printability</li>
+            <li>Revisions until it fits</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="num">02</span>
+          <h3>Prototyping</h3>
+          <p>Hold the part in your hand before committing to a full run. Test, adjust, repeat.</p>
+          <ul>
+            <li>Single-unit prints</li>
+            <li>Fit and function testing</li>
+            <li>Fast iteration between versions</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="num">03</span>
+          <h3>Production</h3>
+          <p>Consistent batches of finished parts, with pricing that improves as quantity goes up.</p>
+          <ul>
+            <li>Small and medium batch runs</li>
+            <li>Multiple materials and finishes</li>
+            <li>Repeat orders on file</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="estimate">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">Cost estimator</span>
+        <h2>See what your part might cost.</h2>
+        <p>Enter rough dimensions and a few choices. You get a price range right away, and a firm quote once we have seen the details.</p>
+      </div>
+
+      <div class="calc">
+        <form class="panel" id="calc" onsubmit="return false">
+          <div class="field">
+            <label for="material">Material <span class="hint" id="materialHint"></span></label>
+            <div class="select">
+              <select id="material"></select>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Overall size <span class="hint">millimeters</span></span>
+            <div class="dims">
+              <div class="dim"><span>L</span><input class="input" id="dimL" type="number" min="1" max="1000" value="100" inputmode="decimal" aria-label="Length in millimeters"></div>
+              <div class="dim"><span>W</span><input class="input" id="dimW" type="number" min="1" max="1000" value="80" inputmode="decimal" aria-label="Width in millimeters"></div>
+              <div class="dim"><span>H</span><input class="input" id="dimH" type="number" min="1" max="1000" value="60" inputmode="decimal" aria-label="Height in millimeters"></div>
+            </div>
+          </div>
+
+          <div class="two">
+            <div class="field">
+              <label for="infill">Strength <span class="hint" id="infillOut"></span></label>
+              <input id="infill" type="range" min="10" max="100" step="5" value="20">
+            </div>
+            <div class="field">
+              <label for="qty">Quantity</label>
+              <input class="input" id="qty" type="number" min="1" max="10000" value="10" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="field">
+            <fieldset>
+              <legend>Finish</legend>
+              <div class="seg" id="finish"></div>
+            </fieldset>
+          </div>
+
+          <div class="field">
+            <fieldset>
+              <legend>Design work</legend>
+              <div class="seg" id="design"></div>
+            </fieldset>
+          </div>
+
+          <div class="field">
+            <fieldset>
+              <legend>Turnaround</legend>
+              <div class="seg" id="speed"></div>
+            </fieldset>
+          </div>
+        </form>
+
+        <aside class="panel result" aria-live="polite">
+          <span class="label">Estimated total</span>
+          <div class="range" id="outRange">—</div>
+          <div class="per" id="outPer"></div>
+          <ul class="breakdown" id="outLines"></ul>
+          <a class="btn btn-primary" id="quoteBtn" href="#contact">Request a firm quote</a>
+          <p class="fine">This is an estimate, not a quote. Final pricing depends on the part's geometry, tolerances, and file review.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">Process</span>
+        <h2>How a job runs.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="num">01</span><h3>Estimate</h3><p>Use the estimator for a ballpark, then send us the details.</p></div>
+        <div class="step"><span class="num">02</span><h3>Quote</h3><p>We review the part and confirm price and lead time.</p></div>
+        <div class="step"><span class="num">03</span><h3>Design and sample</h3><p>We model the part and print a sample for your approval.</p></div>
+        <div class="step"><span class="num">04</span><h3>Produce and deliver</h3><p>We print the run, check every part, and ship.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <h2>Have a part in mind?</h2>
+          <p>Tell us what it needs to do and how many you need. We reply with a firm quote and a lead time.</p>
+        </div>
+        <a class="btn btn-primary" href="mailto:hello@example.com?subject=Quote%20request">hello@example.com</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="year"></span> Layerworks. All rights reserved.</span>
+    <span>Design and 3D printing for businesses</span>
+  </div>
+</footer>
+
+<!-- Theme switcher: preview only. Delete this block and its script once a theme is picked. -->
+<div class="switcher" role="group" aria-label="Preview theme">
+  <span class="tag">Theme</span>
+  <button type="button" data-set-theme="graphite"><span class="dot" style="background:#0f1011; box-shadow: inset 0 0 0 3px #0f1011, inset 0 0 0 6px #d2a467;"></span>Graphite</button>
+  <button type="button" data-set-theme="paper"><span class="dot" style="background:#f5f2ea; box-shadow: inset 0 0 0 3px #f5f2ea, inset 0 0 0 6px #984a2c;"></span>Paper</button>
+  <button type="button" data-set-theme="blueprint"><span class="dot" style="background:#0c1626; box-shadow: inset 0 0 0 3px #0c1626, inset 0 0 0 6px #86b8e8;"></span>Blueprint</button>
+  <button type="button" data-set-theme="studio"><span class="dot" style="background:#ffffff; box-shadow: inset 0 0 0 3px #ffffff, inset 0 0 0 6px #1f5c49;"></span>Studio</button>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Theme switcher (preview only)
+   A theme can also be linked directly: index.html?theme=paper
+------------------------------------------------------------------- */
+(function () {
+  var THEMES = ['graphite', 'paper', 'blueprint', 'studio'];
+  var buttons = document.querySelectorAll('[data-set-theme]');
+
+  function apply(name, remember) {
+    if (THEMES.indexOf(name) === -1) return;
+    document.documentElement.setAttribute('data-theme', name);
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setTheme === name));
+    });
+    if (remember) {
+      try { localStorage.setItem('theme', name); } catch (e) {}
+    }
+  }
+
+  var fromUrl = new URLSearchParams(location.search).get('theme');
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) {}
+  apply(fromUrl || saved || 'graphite', false);
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setTheme, true); });
+  });
+})();
+
+/* ------------------------------------------------------------------
+   Cost estimator
+   ALL RATES BELOW ARE PLACEHOLDERS. Replace with real pricing.
+------------------------------------------------------------------- */
+(function () {
+  var RATES = {
+    materials: [
+      { id: 'pla',   name: 'PLA',   note: 'General purpose',     density: 1.24, perGram: 0.06 },
+      { id: 'petg',  name: 'PETG',  note: 'Tough, water resistant', density: 1.27, perGram: 0.07 },
+      { id: 'abs',   name: 'ABS',   note: 'Heat resistant',      density: 1.05, perGram: 0.08 },
+      { id: 'tpu',   name: 'TPU',   note: 'Flexible',            density: 1.21, perGram: 0.11 },
+      { id: 'resin', name: 'Resin', note: 'Fine detail',         density: 1.15, perGram: 0.18 }
+    ],
+    solidFraction: 0.30,   // share of the bounding box a typical part fills
+    gramsPerHour: 12,      // print speed
+    machinePerHour: 4.00,  // machine time rate
+    setupFee: 20,          // per order
+    finish: [
+      { id: 'standard', name: 'Standard', uplift: 0 },
+      { id: 'smooth',   name: 'Smoothed', uplift: 0.20 },
+      { id: 'painted',  name: 'Painted',  uplift: 0.45 }
+    ],
+    design: [
+      { id: 'none',  name: 'I have a file', fee: 0 },
+      { id: 'tweak', name: 'Minor edits',   fee: 75 },
+      { id: 'full',  name: 'Full design',   fee: 250 }
+    ],
+    speed: [
+      { id: 'standard', name: 'Standard', uplift: 0 },
+      { id: 'rush',     name: 'Rush',     uplift: 0.35 }
+    ],
+    volumeDiscounts: [ { min: 100, off: 0.30 }, { min: 50, off: 0.20 }, { min: 10, off: 0.10 } ],
+    spread: 0.15           // estimate shown as total ± this share
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+  var money0 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+  // Build the material list
+  RATES.materials.forEach(function (m) {
+    var o = document.createElement('option');
+    o.value = m.id;
+    o.textContent = m.name;
+    $('material').appendChild(o);
+  });
+
+  // Build the segmented choices
+  function buildSeg(id, options) {
+    var host = $(id);
+    options.forEach(function (opt, i) {
+      var label = document.createElement('label');
+      var input = document.createElement('input');
+      input.type = 'radio';
+      input.name = id;
+      input.value = opt.id;
+      if (i === 0) input.checked = true;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt.name));
+      host.appendChild(label);
+    });
+  }
+  buildSeg('finish', RATES.finish);
+  buildSeg('design', RATES.design);
+  buildSeg('speed', RATES.speed);
+
+  function pick(list, name) {
+    var checked = document.querySelector('input[name="' + name + '"]:checked');
+    return list.filter(function (x) { return x.id === checked.value; })[0];
+  }
+  function num(id, fallback) {
+    var v = parseFloat($(id).value);
+    return isFinite(v) && v > 0 ? v : fallback;
+  }
+
+  function strengthWord(pct) {
+    if (pct <= 20) return 'Light';
+    if (pct <= 45) return 'Standard';
+    if (pct <= 75) return 'Strong';
+    return 'Solid';
+  }
+
+  function update() {
+    var material = RATES.materials.filter(function (m) { return m.id === $('material').value; })[0];
+    var L = Math.min(num('dimL', 0), 1000);
+    var W = Math.min(num('dimW', 0), 1000);
+    var H = Math.min(num('dimH', 0), 1000);
+    var infill = parseFloat($('infill').value);
+    var qty = Math.max(1, Math.min(Math.round(num('qty', 1)), 10000));
+    var finish = pick(RATES.finish, 'finish');
+    var design = pick(RATES.design, 'design');
+    var speed = pick(RATES.speed, 'speed');
+
+    $('materialHint').textContent = material.note;
+    $('infillOut').textContent = strengthWord(infill) + ' · ' + infill + '% infill';
+
+    if (!L || !W || !H) {
+      $('outRange').textContent = '—';
+      $('outPer').textContent = 'Enter all three dimensions to see an estimate.';
+      $('outLines').innerHTML = '';
+      return;
+    }
+
+    var boxCm3 = (L * W * H) / 1000;
+    var grams = boxCm3 * RATES.solidFraction * (0.25 + 0.75 * infill / 100) * material.density;
+    var hours = grams / RATES.gramsPerHour;
+
+    var materialCost = grams * material.perGram * qty;
+    var machineCost = hours * RATES.machinePerHour * qty;
+    var finishCost = (materialCost + machineCost) * finish.uplift;
+    var production = materialCost + machineCost + finishCost;
+
+    var tier = RATES.volumeDiscounts.filter(function (t) { return qty >= t.min; })[0];
+    var discount = tier ? production * tier.off : 0;
+    var rush = (production - discount) * speed.uplift;
+
+    var total = production - discount + rush + RATES.setupFee + design.fee;
+    var low = total * (1 - RATES.spread);
+    var high = total * (1 + RATES.spread);
+
+    $('outRange').textContent = money0.format(low) + ' – ' + money0.format(high);
+    $('outPer').textContent = 'About ' + money.format(total / qty) + ' per part for ' + qty.toLocaleString('en-US') + (qty === 1 ? ' part' : ' parts');
+
+    var lines = [
+      ['Material (' + material.name + ', ~' + Math.round(grams) + ' g each)', money.format(materialCost)],
+      ['Machine time (~' + hours.toFixed(1) + ' h each)', money.format(machineCost)]
+    ];
+    if (finishCost) lines.push([finish.name + ' finish', money.format(finishCost)]);
+    if (discount) lines.push(['Volume discount (' + Math.round(tier.off * 100) + '%)', '−' + money.format(discount)]);
+    if (rush) lines.push(['Rush turnaround', money.format(rush)]);
+    lines.push(['Setup', money.format(RATES.setupFee)]);
+    if (design.fee) lines.push(['Design: ' + design.name.toLowerCase(), money.format(design.fee)]);
+
+    var ul = $('outLines');
+    ul.innerHTML = '';
+    lines.forEach(function (row) {
+      var li = document.createElement('li');
+      var a = document.createElement('span');
+      var b = document.createElement('span');
+      a.textContent = row[0];
+      b.textContent = row[1];
+      li.appendChild(a);
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    var totalLi = document.createElement('li');
+    totalLi.className = 'total';
+    totalLi.innerHTML = '<span>Midpoint</span><span>' + money.format(total) + '</span>';
+    ul.appendChild(totalLi);
+
+    // Carry the estimate into the quote email
+    var body = [
+      'Hi, I would like a quote for the following part:',
+      '',
+      'Material: ' + material.name,
+      'Size: ' + L + ' x ' + W + ' x ' + H + ' mm',
+      'Infill: ' + infill + '%',
+      'Quantity: ' + qty,
+      'Finish: ' + finish.name,
+      'Design work: ' + design.name,
+      'Turnaround: ' + speed.name,
+      'Website estimate: ' + money0.format(low) + ' - ' + money0.format(high)
+    ].join('\n');
+    $('quoteBtn').href = 'mailto:hello@example.com?subject=' + encodeURIComponent('Quote request') + '&body=' + encodeURIComponent(body);
+  }
+
+  $('calc').addEventListener('input', update);
+  $('calc').addEventListener('change', update);
+  update();
+
+  $('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
